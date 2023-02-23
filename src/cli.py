@@ -4,7 +4,7 @@ import logging
 import requests
 
 class Cli:
-    CLI_VERSION = 'CLI 0.1.0'
+    CLI_VERSION = 'CLI 0.1.1'
     DEV_NAME = 'Rafael Camargo'
     DEV_EMAIL = 'rafaelcamargo.inf@gmail.com'
 
@@ -22,7 +22,7 @@ class Cli:
         except Exception as e:
             logging.error('Error creating README.md file: {}'.format(e))
 
-    def createLicense(self, name, path='.'):
+    def createLicense(self, name, path):
         try:
             r = requests.get(self.LICENSE_API + name)
             if r.status_code == 200:
@@ -39,14 +39,14 @@ class Cli:
         except Exception as e:
             logging.error('Error initializing git repository: {}'.format(e))
 
-    def createGitIgnore(self, lang, path='.'):
+    def createGitIgnore(self, lang, path):
         try:
             out = os.system('curl -L -o {} {}'.format(os.path.join(path, '.gitignore'), self.GITIGONE_API + lang))
             logging.info('Gitignore file created: {}'.format(out))
         except Exception as e:
             logging.error('Error creating gitignore file: {}'.format(e))
 
-    def createGitAttributes(self, path='.'):
+    def createGitAttributes(self, path):
         try:
             with open(os.path.join(path, '.gitattributes'), 'w') as gitattributes:
                 gitattributes.write('* text=auto')
@@ -54,7 +54,7 @@ class Cli:
         except Exception as e:
             logging.error('Error creating gitattributes file: {}'.format(e))
 
-    def createProject(self, name, path='.'):
+    def createProject(self, name, path):
         try:
             if not os.path.exists(path):
                 os.mkdir(path)
@@ -73,7 +73,7 @@ class Cli:
                 'dist'
             ]
             
-            if not os.path.exists(path='.'):
+            if not os.path.exists(path):
                 os.mkdir(path)
             
             for folder in folders:
